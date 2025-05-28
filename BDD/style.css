@@ -1,0 +1,134 @@
+/* Fondo y fuente general */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000; /* fondo negro */
+  color: #fff; /* texto blanco */
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #1c1c1c; /* un poco más oscuro */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15); 
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #ff0000; /* rojo */
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-direction: column; /* Apilar elementos verticalmente */
+  gap: 15px; /* Espacio entre elementos del form */
+  margin-bottom: 30px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea,
+form button {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #2b2b2b;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 5px;
+}
+form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+form input::placeholder, 
+form textarea::placeholder {
+  color: #bbb;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+}
+.checkbox-container label {
+    font-size: 0.95rem;
+    color: #eee;
+}
+.checkbox-container input[type="checkbox"] {
+    transform: scale(1.2);
+    accent-color: #ff0000;
+}
+
+form button {
+  background-color: #ff0000;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #cc0000;
+}
+
+/* Prenda en la lista de BDD */
+.ropa-item {
+  background-color: #2b2b2b;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #ff0000;
+}
+
+.ropa-info {
+  display: flex;
+  gap: 15px; 
+  align-items: center;
+  flex-grow: 1;
+}
+.ropa-info > div { /* Contenedor para texto al lado de la imagen */
+  display: flex;
+  flex-direction: column;
+}
+
+.destacado-badge {
+    background-color: #ffc107;
+    color: #333;
+    padding: 2px 6px;
+    font-size: 0.7em;
+    border-radius: 3px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+/* Botón de eliminar */
+.eliminar-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.eliminar-btn:hover {
+  background-color: #c82333;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <head>
+        <link rel="stylesheet" href="Estilos.css">
+      
+  <meta charset="UTF-8">
+  <title>GOODLOOKING - Tienda de Ropa</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #000;}
+    .oculto { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Bienvenido a GOODLOOKING</h1>
+  <form class="centro">
+
+    <!-- Todavia no es funcional el refistro -->
+    
+
+    <!-- Selección de productos -->
+    <h2>Seleccionar Productos</h2>
+    <label><input type="checkbox" name="productos[]" value="Remera"> Remera</label><br>
+    <label><input type="checkbox" name="productos[]" value="Buzo"> Buzo</label><br>
+    <label><input type="checkbox" name="productos[]" value="Pantalón"> Pantalón</label><br>
+    <label><input type="checkbox" name="productos[]" value="Bermudas"> Bermudas</label><br>
+    <label><input type="checkbox" name="productos[]" value="Zapatillas"> Zapatillas</label><br><br>
+
+    <!-- Forma de pago -->
+    <h2>Forma de Pago</h2>
+    <select name="forma_pago" id="forma_pago" onchange="mostrarOpcionesPago()" required>
+      <option value="">Seleccione una opción</option>
+      <option value="efectivo">Efectivo</option>
+      <option value="tarjeta">Tarjeta Débito/Crédito</option>
+      <option value="transferencia">Transferencia Bancaria</option>
+    </select><br><br>
+
+    <div id="datos_tarjeta" class="oculto">
+      <h3>Datos de la Tarjeta</h3>
+      <label>Número de Tarjeta:</label>
+      <input type="text" name="numero_tarjeta"><br><br>
+      <label>Nombre del Titular:</label>
+      <input type="text" name="nombre_titular"><br><br>
+      <label>Fecha de Vencimiento:</label>
+      <input type="month" name="vencimiento"><br><br>
+      <label>Código de Seguridad:</label>
+      <input type="text" name="cvv"><br><br>
+    </div>
+
+    <div id="alias_transferencia" class="oculto">
+      <p><strong>Alias de la empresa para transferencias:</strong> Good.Looking</p>
+    </div>
+
+    <!-- Entrega -->
+    <h2>Forma de Entrega</h2>
+    <label><input type="radio" name="entrega" value="local" onclick="mostrarEnvio(false)" required> Retiro en Local</label><br>
+    <label><input type="radio" name="entrega" value="envio" onclick="mostrarEnvio(true)"> Envío a Domicilio</label><br><br>
+
+    <div id="direccion_envio" class="oculto">
+      <label>Dirección de destino:</label><br>
+      <textarea name="direccion" rows="3" cols="40"></textarea><br><br>
+    </div>
+
+    <button type="submit">Finalizar Compra</button>
+
+  </form>
+
+  <script>
+    function mostrarOpcionesPago() {
+      const formaPago = document.getElementById('forma_pago').value;
+      document.getElementById('datos_tarjeta').classList.add('oculto');
+      document.getElementById('alias_transferencia').classList.add('oculto');
+
+      if (formaPago === 'tarjeta') {
+        document.getElementById('datos_tarjeta').classList.remove('oculto');
+      } else if (formaPago === 'transferencia') {
+        document.getElementById('alias_transferencia').classList.remove('oculto');
+      }
+    }
+
+    function mostrarEnvio(esEnvio) {
+      const campoDireccion = document.getElementById('direccion_envio');
+      campoDireccion.classList.toggle('oculto', !esEnvio);
+    }
+  </script>
+
+</body>
+</html>

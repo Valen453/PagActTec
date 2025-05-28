@@ -1,0 +1,302 @@
+/* --- Reset y Estilos Globales --- */
+:root {
+  --color-primario: #ff0000; /* Rojo GOODLOOKING */
+  --color-primario-hover: #cc0000;
+  --color-fondo-principal: #121212;
+  --color-fondo-secundario: #1e1e1e;
+  --color-fondo-inputs: #2c2c2c;
+  --color-borde: #3a3a3a;
+  --color-texto-principal: #e0e0e0;
+  --color-texto-secundario: #b0b0b0;
+  --color-precio: #50C878; /* Verde esmeralda para precios */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-fondo-principal);
+  color: var(--color-texto-principal);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* --- Encabezado del Sitio --- */
+.site-header {
+  background-color: #0d0d0d; 
+  padding: 15px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid var(--color-borde);
+  position: sticky;
+  top: 0;
+  z-index: 1050; /* Sobre componentes de Bootstrap */
+}
+
+.site-title {
+  font-size: 1.8rem;
+  color: var(--color-primario); 
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- Contenido Principal y Títulos de Sección --- */
+.page-content {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.section-title {
+  color: var(--color-texto-principal);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-primario);
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 2rem !important; /* Bootstrap usa !important, así que a veces es necesario */
+}
+
+/* --- Formulario Principal (.checkout-form) --- */
+.checkout-form { 
+  background-color: var(--color-fondo-secundario); 
+  border-radius: 10px; 
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-borde);
+}
+
+.form-title { /* Título dentro del formulario */
+  color: #ffffff;
+  font-size: 1.8rem; /* Reducido para Bootstrap */
+  margin-bottom: 25px !important;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primario); 
+  font-weight: 500;
+}
+
+.form-section h3,
+.form-section-dynamic h4 {
+  color: var(--color-texto-principal);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #444;
+  font-weight: 500;
+}
+.form-section-dynamic h4 {
+  font-size: 1.15rem;
+}
+
+
+/* --- Inputs, Selects, Textareas (Estilo Bootstrap Oscuro) --- */
+.form-label {
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.form-control, .form-select {
+  background-color: var(--color-fondo-inputs);
+  border-color: var(--color-borde);
+  color: var(--color-texto-principal);
+  border-radius: 0.375rem; /* Bootstrap default */
+  padding: 0.6rem 0.9rem; /* Ajustar padding */
+}
+.form-control::placeholder {
+  color: #6c757d; /* Color de placeholder de Bootstrap */
+}
+.form-control:focus, .form-select:focus {
+  background-color: var(--color-fondo-inputs);
+  border-color: var(--color-primario);
+  color: var(--color-texto-principal);
+  box-shadow: 0 0 0 0.25rem rgba(var(--color-primario), 0.25);
+  /* Convertir color primario a RGB para rgba si es necesario manualmente, ej. ff0000 -> 255,0,0 */
+  /* box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25); */
+}
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23b0b0b0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* --- Checkbox y Radio (Bootstrap) --- */
+.form-check-input {
+  background-color: var(--color-fondo-inputs);
+  border-color: var(--color-borde);
+}
+.form-check-input:checked {
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255,0,0,0.25); /* Usando el primario */
+}
+.form-check-label {
+  color: var(--color-texto-secundario);
+}
+
+
+/* --- Carrusel de Productos Destacados --- */
+#carouselDestacados .carousel-item {
+  height: 400px; /* Ajusta según tus imágenes */
+}
+#carouselDestacados .carousel-img {
+  height: 100%;
+  object-fit: cover; /* o 'contain' si prefieres ver la imagen completa */
+  filter: brightness(0.7); /* Oscurecer un poco para que el texto resalte */
+}
+#carouselDestacados .carousel-caption {
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 5px;
+  padding: 1rem;
+}
+#carouselDestacados .carousel-caption h5 {
+  color: #fff;
+  font-weight: bold;
+}
+#carouselDestacados .carousel-caption p {
+  color: #f0f0f0;
+  font-size: 0.9rem;
+}
+/* --- Productos Disponibles (Checkout) - Estilo de Cards Bootstrap --- */
+.producto-card {
+  background-color: #252525; /* Fondo de la card */
+  border: 1px solid var(--color-borde);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  color: var(--color-texto-principal);
+}
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+.producto-card-img {
+  height: 200px; /* Altura fija para la imagen */
+  object-fit: cover; /* o 'contain' */
+  border-bottom: 1px solid var(--color-borde);
+}
+.producto-card .card-body {
+  padding: 1rem;
+}
+.producto-card-nombre {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.producto-card-descripcion {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  margin-bottom: 0.75rem;
+  min-height: 50px; /* Para alinear cards con descripciones de distinta longitud */
+}
+.producto-card-precio {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-precio);
+  margin-bottom: 0.5rem;
+}
+.producto-card-footer {
+  background-color: transparent; /* Hacerlo transparente para que tome el color de la card */
+  border-top: 1px solid var(--color-borde);
+  padding: 0.75rem 1rem;
+}
+.boton-ver-detalles {
+  background-color: var(--color-fondo-inputs);
+  color: var(--color-texto-secundario);
+  border: 1px solid var(--color-borde);
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+}
+.boton-ver-detalles:hover {
+  background-color: #3a3a3a;
+  color: #fff;
+  border-color: #555;
+}
+
+.no-productos-disponibles {
+  color: var(--color-texto-secundario);
+  font-style: italic;
+  padding: 2rem;
+}
+
+
+/* --- Secciones dinámicas ocultas --- */
+.form-section-dynamic {
+  padding: 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  background-color: #252525; 
+  border-radius: 0.375rem; /* Bootstrap default */
+  border: 1px solid var(--color-borde);
+}
+.alias-info {
+  background-color: #303030;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--color-primario);
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  color: var(--color-texto-principal);
+}
+.alias-info strong {
+  color: #ffffff;
+}
+
+/* --- Botones (Adaptado a Bootstrap) --- */
+.boton-finalizar, .btn-goodlooking { /* Nueva clase para botones generales con tema */
+  background-color: var(--color-primario); 
+  color: white;
+  padding: 0.6rem 1.2rem;        
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.boton-finalizar:hover, .btn-goodlooking:hover {
+  background-color: var(--color-primario-hover); 
+  color: white;
+  transform: translateY(-1px); 
+}
+.boton-finalizar:active, .btn-goodlooking:active {
+  transform: translateY(0px); 
+}
+
+/* --- Modal --- */
+.modal-content {
+  background-color: var(--color-fondo-secundario);
+  color: var(--color-texto-principal);
+  border: 1px solid var(--color-borde);
+}
+.modal-header {
+  border-bottom: 1px solid var(--color-borde);
+}
+.modal-header .modal-title {
+  color: #fff;
+}
+.btn-close-white { /* Para el botón de cerrar en el modal oscuro */
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+.modal-body h3 { color: #fff; }
+.modal-body p strong { color: #ddd; }
+
+
+/* --- Pie de Página --- */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background-color: #0d0d0d;
+  color: #888;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--color-borde);
+  margin-top: 2.5rem;
+}
+
+/* --- Responsive (Ajustes adicionales si son necesarios) --- */
+@media (max-width: 768px) {
+  .checkout-form {
+      padding: 1.5rem;
+  }
+  .form-title {
+      font-size: 1.6rem;
+  }
+  .site-title {
+      font-size: 1.5rem;
+  }
+  #carouselDestacados .carousel-item {
+      height: 300px; 
+  }
+}
