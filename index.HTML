@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOODLOOKING - Tienda de Ropa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/CSS/Estilos.css">
+    <style>
+        .oculto { display: none !important; }
+        .admin-nav-button { margin-left: 10px; }
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .user-greeting { color: var(--color-texto-secundario); margin-right: 10px; font-size: 0.9rem; }
+        .carousel-img { height: 400px; object-fit: cover; filter: brightness(0.7); } /* Asegurar altura de carrusel */
+         #productos-destacados-carousel-section.oculto { display: none !important; } /* Para asegurar que se oculte */
+    </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title" style="text-decoration: none;">GOODLOOKING</a>
+      <div id="user-actions-header" class="d-flex align-items-center"></div>
+    </div>
+  </header>
+  
+  <main class="page-content">
+    <section id="productos-destacados-carousel-section" class="container mt-4 mb-5 oculto"> {/* Inicia oculto */}
+      <h2 class="text-center mb-4 section-title">Productos Destacados</h2>
+      <div id="carouselDestacados" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner" id="carouselDestacadosInner"></div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Anterior</span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Siguiente</span></button>
+      </div>
+    </section>
+
+    <div class="container">
+        <form class="checkout-form p-4 p-md-5">
+        <h2 class="form-title text-center">Finaliza tu Compra</h2>
+        <section class="form-section">
+            <h3>Seleccionar Productos</h3>
+            <div id="productos-disponibles" class="row mt-3 gy-4"></div>
+        </section>
+        {/* ... resto del formulario de checkout ... */}
+        <section class="form-section">
+            <h3>Forma de Pago</h3>
+            <label for="forma_pago" class="form-label">Elige una opción:</label>
+            <select class="form-select" name="forma_pago" id="forma_pago" onchange="mostrarOpcionesPago()" required>
+            <option value="">Seleccione una opción</option><option value="efectivo">Efectivo</option><option value="tarjeta">Tarjeta Débito/Crédito</option><option value="transferencia">Transferencia Bancaria</option>
+            </select>
+        </section>
+        <div id="datos_tarjeta" class="oculto form-section-dynamic p-3 rounded">
+            <h4>Datos de la Tarjeta</h4>
+            <div class="mb-3"><label for="numero_tarjeta" class="form-label">Número de Tarjeta:</label><input type="text" class="form-control" id="numero_tarjeta" name="numero_tarjeta" placeholder="0000 0000 0000 0000"></div>
+            <div class="mb-3"><label for="nombre_titular" class="form-label">Nombre del Titular:</label><input type="text" class="form-control" id="nombre_titular" name="nombre_titular" placeholder="Nombre como aparece en la tarjeta"></div>
+            <div class="row"><div class="col-md-6 mb-3"><label for="vencimiento" class="form-label">Vencimiento (MM/AA):</label><input type="month" class="form-control" id="vencimiento" name="vencimiento"></div><div class="col-md-6 mb-3"><label for="cvv" class="form-label">CVV:</label><input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" maxlength="4"></div></div>
+        </div>
+        <div id="alias_transferencia" class="oculto form-section-dynamic p-3 rounded"><h4>Transferencia Bancaria</h4><p class="alias-info"><strong>Alias:</strong> Good.Looking</p></div>
+        <section class="form-section">
+            <h3>Forma de Entrega</h3>
+            <div class="opciones-entrega d-flex flex-wrap gap-3">
+                <div class="form-check"><input class="form-check-input" type="radio" name="entrega" id="entregaLocal" value="local" onclick="mostrarEnvio(false)" required><label class="form-check-label" for="entregaLocal">Retiro en Local</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="entrega" id="entregaEnvio" value="envio" onclick="mostrarEnvio(true)"><label class="form-check-label" for="entregaEnvio">Envío a Domicilio</label></div>
+            </div>
+        </section>
+        <div id="direccion_envio" class="oculto form-section-dynamic p-3 rounded"><h4>Dirección de Envío</h4><div class="mb-3"><label for="direccion" class="form-label">Dirección completa:</label><textarea class="form-control" id="direccion" name="direccion" rows="3" placeholder="Calle, N°, Localidad, Provincia, CP"></textarea></div></div>
+        <button type="button" class="btn boton-finalizar w-100 mt-4" id="checkout-continue-button">Continuar y Pagar</button>
+        </form>
+    </div>
+  </main>
+  <footer class="site-footer text-center py-4 mt-5"><div class="container"><p>&copy; <span id="currentYear"></span> GOODLOOKING. Todos los derechos reservados.</p></div></footer>
+  <div class="modal fade" id="productoModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="productoModalLabel">Detalles</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><div class="row">
+            <div class="col-md-6 text-center"><img src="" alt="Imagen Producto" id="modalProductoImagen" class="img-fluid rounded mb-3" style="max-height: 400px; object-fit: contain;"></div>
+            <div class="col-md-6"><h3 id="modalProductoNombre"></h3><p id="modalProductoDescripcion"></p>
+                <p><strong>Tipo:</strong> <span id="modalProductoTipo"></span></p><p><strong>Talla:</strong> <span id="modalProductoTalla"></span></p><p><strong>Precio:</strong> <span id="modalProductoPrecio" class="fw-bold fs-5"></span></p>
+                <button type="button" class="btn btn-outline-light w-100" data-bs-dismiss="modal">Cerrar</button>
+            </div></div></div></div></div></div>
+
+  <script src="assets/JS/auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    function mostrarOpcionesPago() { /* ... (sin cambios) ... */ 
+        const formaPago = document.getElementById('forma_pago').value;
+        document.getElementById('datos_tarjeta').classList.add('oculto');
+        document.getElementById('alias_transferencia').classList.add('oculto');
+        if (formaPago === 'tarjeta') document.getElementById('datos_tarjeta').classList.remove('oculto');
+        else if (formaPago === 'transferencia') document.getElementById('alias_transferencia').classList.remove('oculto');
+    }
+    function mostrarEnvio(esEnvio) { /* ... (sin cambios) ... */ 
+        document.getElementById('direccion_envio').classList.toggle('oculto', !esEnvio);
+    }
+
+    function obtenerTodasLasPrendas() {
+        const prendasJSON = localStorage.getItem('prendas');
+        try {
+            return prendasJSON ? JSON.parse(prendasJSON) : [];
+        } catch (e) {
+            console.error("Error al parsear prendas de localStorage para index:", e);
+            return [];
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const todasLasPrendas = obtenerTodasLasPrendas();
+        
+        cargarCarruselDestacados(todasLasPrendas);
+        cargarProductosParaCheckout(todasLasPrendas);
+        actualizarHeader(); // auth.js
+
+        const checkoutButton = document.getElementById('checkout-continue-button');
+        const currentUser = getCurrentUser(); 
+        if (!currentUser) {
+            checkoutButton.textContent = 'Continuar (Requiere Iniciar Sesión)';
+            checkoutButton.onclick = function() { window.location.href = 'Registro.html'; };
+        } else {
+            checkoutButton.textContent = `Continuar como ${currentUser.nombre} y Pagar`;
+            checkoutButton.onclick = function(e) { e.preventDefault(); alert('Procediendo al pago (simulado). ¡Gracias por tu compra, ' + currentUser.nombre + '!'); };
+        }
+    });
+
+    function actualizarHeader() { /* ... (sin cambios respecto a la versión anterior, usa auth.js) ... */
+        const userActionsHeader = document.getElementById('user-actions-header');
+        userActionsHeader.innerHTML = ''; 
+        const currentUser = getCurrentUser(); 
+        if (currentUser) {
+            const greeting = document.createElement('span');
+            greeting.className = 'user-greeting';
+            greeting.textContent = `Hola, ${currentUser.nombre}`;
+            userActionsHeader.appendChild(greeting);
+            if (currentUser.role === 'admin') {
+                const bddButton = document.createElement('a');
+                bddButton.href = 'BDD.html'; bddButton.textContent = 'Admin Panel';
+                bddButton.className = 'btn btn-danger admin-nav-button';
+                userActionsHeader.appendChild(bddButton);
+            }
+            const logoutButton = document.createElement('button');
+            logoutButton.textContent = 'Cerrar Sesión';
+            logoutButton.className = 'btn btn-outline-light admin-nav-button';
+            logoutButton.onclick = function() { logout(); };
+            userActionsHeader.appendChild(logoutButton);
+        } else {
+            const loginRegisterButton = document.createElement('a');
+            loginRegisterButton.href = 'Registro.html';
+            loginRegisterButton.textContent = 'Iniciar Sesión / Registrarse';
+            loginRegisterButton.className = 'btn btn-outline-light admin-nav-button';
+            userActionsHeader.appendChild(loginRegisterButton);
+        }
+    }
+
+    function cargarCarruselDestacados(prendas) {
+        const carouselInner = document.getElementById('carouselDestacadosInner');
+        const carouselSection = document.getElementById('productos-destacados-carousel-section');
+        if (!carouselInner || !carouselSection) { console.error("Elementos del carrusel no encontrados."); return; }
+
+        const prendasDestacadas = prendas.filter(p => p && p.destacado === true);
+
+        if (prendasDestacadas.length === 0) {
+            carouselSection.classList.add('oculto');
+            return;
+        }
+        carouselSection.classList.remove('oculto');
+        carouselInner.innerHTML = ''; 
+        prendasDestacadas.forEach((prenda, index) => {
+            const descripcionCorta = prenda.descripcion ? (prenda.descripcion.length > 80 ? prenda.descripcion.substring(0, 80) + '...' : prenda.descripcion) : '';
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+            carouselItem.innerHTML = `
+                <img src="${prenda.imagen || 'placeholder.png'}" class="d-block w-100 carousel-img" alt="${prenda.nombre || 'Producto destacado'}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>${prenda.nombre || 'Producto destacado'}</h5>
+                    <p>${descripcionCorta}</p>
+                </div>`;
+            carouselInner.appendChild(carouselItem);
+        });
+        const carouselElement = document.getElementById('carouselDestacados');
+        if (carouselElement) { // Re-inicializar o actualizar Bootstrap Carousel
+            const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+            if (carouselInstance) { carouselInstance.cycle(); } 
+            else { new bootstrap.Carousel(carouselElement); }
+        }
+    }
+
+    function cargarProductosParaCheckout(prendas) {
+      const contenedorProductos = document.getElementById('productos-disponibles');
+      if (!contenedorProductos) { console.error("Contenedor de productos para checkout no encontrado."); return; }
+      
+      contenedorProductos.innerHTML = ''; 
+      if (prendas.length === 0) {
+        contenedorProductos.innerHTML = '<p class="col-12 text-center no-productos-disponibles">No hay productos disponibles en este momento.</p>';
+        return;
+      }
+      prendas.forEach(prenda => {
+        if (typeof prenda !== 'object' || !prenda || !prenda.id) { // Chequeo básico
+            console.warn("Saltando objeto de prenda inválido:", prenda);
+            return;
+        }
+        const descripcionCorta = prenda.descripcion ? (prenda.descripcion.length > 80 ? prenda.descripcion.substring(0, 80) + '...' : prenda.descripcion) : 'Descripción no disponible.';
+        const productoCol = document.createElement('div');
+        productoCol.className = 'col-lg-4 col-md-6 col-sm-12'; 
+        productoCol.innerHTML = `
+          <div class="card producto-card h-100">
+            <img src="${prenda.imagen || 'placeholder.png'}" class="card-img-top producto-card-img" alt="${prenda.nombre || 'Producto'}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title producto-card-nombre">${prenda.nombre || 'Producto'}</h5>
+              <p class="card-text producto-card-descripcion flex-grow-1">${descripcionCorta}</p>
+              <p class="card-text producto-card-precio"><strong>Precio:</strong> $${prenda.precio !== undefined ? parseFloat(prenda.precio).toFixed(2) : 'N/A'}</p>
+            </div>
+            <div class="card-footer producto-card-footer">
+                <div class="form-check mb-2">
+                    <input class="form-check-input producto-checkbox-checkout" type="checkbox" value="${prenda.id}" id="prod-${prenda.id}" name="productos_seleccionados[]" data-precio="${prenda.precio}">
+                    <label class="form-check-label" for="prod-${prenda.id}">Seleccionar</label>
+                </div>
+                <button type="button" class="btn btn-sm boton-ver-detalles w-100" 
+                        data-bs-toggle="modal" data-bs-target="#productoModal"
+                        data-id="${prenda.id}" data-nombre="${prenda.nombre || ''}" 
+                        data-descripcion="${prenda.descripcion || 'Descripción no disponible.'}"
+                        data-imagen="${prenda.imagen || ''}" data-talla="${prenda.talla || ''}"
+                        data-tipo="${prenda.tipo || 'No especificado'}" data-precio="$${prenda.precio !== undefined ? parseFloat(prenda.precio).toFixed(2) : 'N/A'}">
+                  Ver Detalles
+                </button>
+            </div></div>`;
+        contenedorProductos.appendChild(productoCol);
+      });
+
+      const modalEl = document.getElementById('productoModal');
+      if (modalEl) {
+        modalEl.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            document.getElementById('modalProductoNombre').textContent = button.getAttribute('data-nombre');
+            document.getElementById('modalProductoImagen').src = button.getAttribute('data-imagen') || 'placeholder.png';
+            document.getElementById('modalProductoDescripcion').textContent = button.getAttribute('data-descripcion');
+            document.getElementById('modalProductoTalla').textContent = button.getAttribute('data-talla');
+            document.getElementById('modalProductoTipo').textContent = button.getAttribute('data-tipo');
+            document.getElementById('modalProductoPrecio').textContent = button.getAttribute('data-precio');
+            document.getElementById('productoModalLabel').textContent = "Detalles de: " + button.getAttribute('data-nombre');
+        });
+      }
+    }
+  </script>
+</body>
+</html>
